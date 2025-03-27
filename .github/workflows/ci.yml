@@ -83,8 +83,7 @@ jobs:
       matrix:
         os: [
             windows-latest,
-            # CI does not have a display
-            # ubuntu-latest,
+            ubuntu-latest,
             # MacOS impl is broken
             # macos-latest,
           ]
@@ -306,7 +305,7 @@ jobs:
       - name: Installs cargo-deadlinks
         run: cargo install --force cargo-deadlinks
       - name: Check dead links
-        run: cargo deadlinks --dir target/doc
+        run: cargo deadlinks --check-http
         continue-on-error: true
 
   check-unused-dependencies:
