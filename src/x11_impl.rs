@@ -13,9 +13,9 @@ use anyhow::anyhow;
 // Mostly taken from https://stackoverflow.com/questions/222606/detecting-keyboard-mouse-activity-in-linux
 
 /// Get the idle time of a user.
-/// 
+///
 /// # Errors
-/// 
+///
 /// Errors if a system call fails.
 #[inline]
 pub fn get_idle_time() -> Result<Duration, Error> {

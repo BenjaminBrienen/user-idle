@@ -13,7 +13,7 @@ use crate::Result;
 /// Get the idle time of a user.
 ///
 /// # Errors
-/// 
+///
 /// Errors if a system call failed.
 #[inline]
 pub fn get_idle_time() -> Result<Duration> {
@@ -33,7 +33,9 @@ pub fn get_idle_time() -> Result<Duration> {
     if unsafe { GetLastInputInfo(addr_of_mut!(last_input_info)) } == 0 {
         Err(anyhow!("GetLastInputInfo failed"))
     } else {
-        Ok(Duration::from_millis(now.saturating_sub(last_input_info.dwTime).into()))
+        Ok(Duration::from_millis(
+            now.saturating_sub(last_input_info.dwTime).into(),
+        ))
     }
 }
 
