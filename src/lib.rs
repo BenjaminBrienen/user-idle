@@ -29,7 +29,6 @@ mod idle;
 mod idle;
 
 pub use idle::get_idle_time;
-
 #[cfg(test)]
 mod test {
     use std::{thread::sleep, time::Duration};
@@ -37,7 +36,6 @@ mod test {
     use super::get_idle_time;
 
     const DURATION: Duration = Duration::from_secs(10);
-    const THRESHOLD: Duration = Duration::from_millis(300);
 
     #[test]
     // If this test fails, you probably moved your mouse or something while the test was running.
@@ -45,9 +43,6 @@ mod test {
         let idle_before = get_idle_time().expect("Failed to get idle time 1");
         sleep(DURATION);
         let idle_after = get_idle_time().expect("Failed to get idle time 2");
-        let result = idle_after
-            .checked_sub(idle_before)
-            .and_then(|result| result.checked_sub(DURATION));
-        assert!(result < Some(THRESHOLD));
+        assert!(idle_after >= idle_before + DURATION,);
     }
 }
