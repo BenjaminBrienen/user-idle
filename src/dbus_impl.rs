@@ -1,6 +1,6 @@
-use std::time::Duration;
-use dbus::blocking::Connection;
 use crate::error::Error;
+use dbus::blocking::Connection;
+use std::time::Duration;
 
 const SCREENSAVERS: &[&[&str]] = &[
     &[

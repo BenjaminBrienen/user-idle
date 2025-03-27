@@ -1,7 +1,10 @@
 use std::{io, mem::size_of, ptr::null_mut, time::Duration};
 
 use CoreFoundation_sys::{
-    kCFAllocatorDefault, kCFNumberSInt64Type, kCFStringEncodingUTF8, CFDataGetBytes, CFDataGetTypeID, CFDataRef, CFDictionaryGetValueIfPresent, CFGetTypeID, CFIndex, CFNumberGetTypeID, CFNumberGetValue, CFNumberRef, CFRange, CFRelease, CFStringCreateWithCString, CFTypeRef
+    CFDataGetBytes, CFDataGetTypeID, CFDataRef, CFDictionaryGetValueIfPresent, CFGetTypeID,
+    CFIndex, CFNumberGetTypeID, CFNumberGetValue, CFNumberRef, CFRange, CFRelease,
+    CFStringCreateWithCString, CFTypeRef, kCFAllocatorDefault, kCFNumberSInt64Type,
+    kCFStringEncodingUTF8,
 };
 use IOKit_sys::{
     IOIteratorNext, IOMasterPort, IOObjectRelease, IORegistryEntryCreateCFProperties,
