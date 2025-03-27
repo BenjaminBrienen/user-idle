@@ -1,8 +1,6 @@
-disallowed-types = [
-]
+disallowed-types = []
 
-disallowed-methods = [
-]
+disallowed-methods = []
 
 # TODO
 # disallowed-names = ["res", "err", "alt", "char", "dir"]

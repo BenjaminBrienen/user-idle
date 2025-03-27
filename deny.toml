@@ -3,8 +3,7 @@ all-features = true
 
 [advisories]
 version = 2
-ignore = [
-]
+ignore = []
 
 # Ignore warnings about unused license exceptions
 [licenses]
