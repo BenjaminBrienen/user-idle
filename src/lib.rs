@@ -12,16 +12,13 @@ mod error;
 
 pub use error::Error;
 
-#[cfg(all(target_os = "linux", feature = "x11"))]
+#[cfg(all(target_os = "linux", not(feature = "dbus")))]
 #[path = "x11_impl.rs"]
 mod idle;
 
 #[cfg(all(target_os = "linux", feature = "dbus"))]
 #[path = "dbus_impl.rs"]
 mod idle;
-
-#[cfg(all(target_os = "linux", all(not(feature = "x11"), not(feature = "dbus"))))]
-compile_error!("You must enable either the x11 or dbus feature when targeting linux.");
 
 #[cfg(target_os = "windows")]
 #[path = "windows_impl.rs"]
@@ -32,7 +29,6 @@ mod idle;
 mod idle;
 
 pub use idle::get_idle_time;
-
 #[cfg(test)]
 mod test {
     use std::{thread::sleep, time::Duration};
