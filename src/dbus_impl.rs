@@ -4,8 +4,6 @@ use dbus::blocking::Connection;
 
 use crate::error::Error;
 
-// Based on https://bitbucket.org/pidgin/main/src/default/pidgin/gtkidle.c
-
 const SCREENSAVERS: &[&[&str]] = &[
     &[
         "org.freedesktop.ScreenSaver",

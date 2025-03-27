@@ -34,7 +34,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - name: Install dependencies on Linux
         if: runner.os == 'Linux'
-        run: sudo add-apt-repository universe && sudo apt-get update && sudo apt-get install -y libx11-dev xscrnsaver
+        run: sudo add-apt-repository universe && sudo apt-get update && sudo apt-get install -y libx11-dev xscreensaver
       - name: Build & run tests
         run: cargo test --workspace --lib --bins --tests --benches
         env:
@@ -62,7 +62,7 @@ jobs:
         run: cargo fmt --all -- --check
       - name: Install dependencies on Linux
         if: runner.os == 'Linux'
-        run: sudo add-apt-repository universe && sudo apt-get update && sudo apt-get install -y libx11-dev xscrnsaver
+        run: sudo add-apt-repository universe && sudo apt-get update && sudo apt-get install -y libx11-dev xscreensaver
       - name: Clippy
         run: cargo clippy --workspace --all-targets --all-features -- -Dwarnings
 
@@ -110,7 +110,7 @@ jobs:
           toolchain: stable
       - name: Install dependencies on Linux
         if: runner.os == 'Linux'
-        run: sudo add-apt-repository universe && sudo apt-get update && sudo apt-get install -y libx11-dev xscrnsaver
+        run: sudo add-apt-repository universe && sudo apt-get update && sudo apt-get install -y libx11-dev xscreensaver
       - name: Check Compile
         run: |
           cargo test --target-dir ../../../target
@@ -139,7 +139,7 @@ jobs:
           targets: x86_64-unknown-none
       - name: Install dependencies on Linux
         if: runner.os == 'Linux'
-        run: sudo add-apt-repository universe && sudo apt-get update && sudo apt-get install -y libx11-dev xscrnsaver
+        run: sudo add-apt-repository universe && sudo apt-get update && sudo apt-get install -y libx11-dev xscreensaver
       - name: Check Compile
         run: cargo check --no-default-features
 
@@ -215,7 +215,7 @@ jobs:
           toolchain: ${{ env.NIGHTLY_TOOLCHAIN }}
       - name: Install dependencies on Linux
         if: runner.os == 'Linux'
-        run: sudo add-apt-repository universe && sudo add-apt-repository universe && sudo apt-get update && sudo apt-get install -y libx11-dev xscrnsaver
+        run: sudo add-apt-repository universe && sudo add-apt-repository universe && sudo apt-get update && sudo apt-get install -y libx11-dev xscreensaver
       - name: Build doc
         run: cargo doc --workspace --all-features --no-deps --document-private-items --keep-going
         env:
@@ -258,7 +258,7 @@ jobs:
 
       - name: Install dependencies on Linux
         if: runner.os == 'Linux'
-        run: sudo add-apt-repository universe && sudo apt-get update && sudo apt-get install -y libx11-dev xscrnsaver
+        run: sudo add-apt-repository universe && sudo apt-get update && sudo apt-get install -y libx11-dev xscreensaver
 
       - name: Check if cargo-udeps is installed
         id: cargo-udeps-check
