@@ -37,7 +37,7 @@ mod test {
     use super::get_idle_time;
 
     const DURATION: Duration = Duration::from_secs(10);
-    const THRESHHOLD: Duration = Duration::from_millis(300);
+    const THRESHOLD: Duration = Duration::from_millis(300);
 
     #[test]
     // If this test fails, you probably moved your mouse or something while the test was running.
@@ -45,6 +45,6 @@ mod test {
         let idle_before = get_idle_time().expect("Failed to get idle time 1");
         sleep(DURATION);
         let idle_after = get_idle_time().expect("Failed to get idle time 2");
-        assert!(idle_after.checked_sub(idle_before) < Some(THRESHHOLD));
+        assert!(idle_after.checked_sub(idle_before) < Some(THRESHOLD));
     }
 }
