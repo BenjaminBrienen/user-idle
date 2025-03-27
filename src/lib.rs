@@ -12,13 +12,16 @@ mod error;
 
 pub use error::Error;
 
-#[cfg(all(target_os = "linux", not(feature = "dbus")))]
+#[cfg(all(target_os = "linux", feature = "x11"))]
 #[path = "x11_impl.rs"]
 mod idle;
 
 #[cfg(all(target_os = "linux", feature = "dbus"))]
 #[path = "dbus_impl.rs"]
 mod idle;
+
+#[cfg(all(target_os = "linux", all(not(feature = "x11"), not(feature = "dbus"))))]
+compile_error!("You must enable either the x11 or dbus feature when targeting linux.");
 
 #[cfg(target_os = "windows")]
 #[path = "windows_impl.rs"]
@@ -29,6 +32,7 @@ mod idle;
 mod idle;
 
 pub use idle::get_idle_time;
+
 #[cfg(test)]
 mod test {
     use std::{thread::sleep, time::Duration};
@@ -40,9 +44,9 @@ mod test {
     #[test]
     // If this test fails, you probably moved your mouse or something while the test was running.
     fn main() {
-        let idle_before = get_idle_time().expect("Failed to get idle time 1");
+        let idle_before = get_idle_time().expect("failed to get idle time 1");
         sleep(DURATION);
-        let idle_after = get_idle_time().expect("Failed to get idle time 2");
+        let idle_after = get_idle_time().expect("failed to get idle time 2");
         assert!(idle_after >= idle_before + DURATION,);
     }
 }

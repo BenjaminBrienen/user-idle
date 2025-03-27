@@ -17,7 +17,43 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest]
+        os: [
+            windows-latest,
+            # CI does not have a display
+            # ubuntu-latest,
+            macos-latest,
+          ]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-build-stable-${{ hashFiles('**/Cargo.toml') }}
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Install Linux dependencies
+        uses: ./.github/actions/install-linux-dependencies
+      - name: Build & run tests
+        run: cargo build --workspace --lib --bins --tests --benches
+        env:
+          CARGO_INCREMENTAL: 0
+          RUSTFLAGS: "-C debuginfo=0 -D warnings"
+
+  test:
+    strategy:
+      matrix:
+        os: [
+            windows-latest,
+            # CI does not have a display
+            # ubuntu-latest,
+            macos-latest,
+          ]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
     steps:
@@ -120,7 +156,7 @@ jobs:
         uses: ./.github/actions/install-linux-dependencies
       - name: Check Compile
         run: |
-          cargo test --target-dir ../../../target
+          cargo check --target-dir ../../../target
           # cargo check --benches --target-dir ../target --manifest-path ./benches/Cargo.toml
           cargo check --workspace --examples
           cargo check --workspace
