@@ -1,7 +1,5 @@
-use core::time::Duration;
-
+use std::time::Duration;
 use dbus::blocking::Connection;
-
 use crate::error::Error;
 
 const SCREENSAVERS: &[&[&str]] = &[
@@ -27,6 +25,7 @@ const SCREENSAVERS: &[&[&str]] = &[
 /// # Panics
 ///
 /// Panics if a system call fails or if time flows backwards.
+#[inline]
 pub fn get_idle_time() -> Result<Duration, Error> {
     for screensaver in SCREENSAVERS {
         let Ok(conn) = Connection::new_session() else {
@@ -49,4 +48,14 @@ pub fn get_idle_time() -> Result<Duration, Error> {
     }
 
     Err(Error::new("No screensaver available"))
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn does_not_panic() {
+        get_idle_time().unwrap();
+    }
 }

@@ -33,3 +33,13 @@ pub fn get_idle_time() -> Result<Duration, Error> {
         )))
     }
 }
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn does_not_panic() {
+        get_idle_time().unwrap();
+    }
+}
