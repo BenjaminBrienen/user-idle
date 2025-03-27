@@ -1,6 +1,6 @@
 # `user-idle-time`
 
-## Get the idle time of a user
+Get the idle time of a user
 
 | OS              | Supported |
 | --------------- | --------- |
@@ -19,9 +19,7 @@
 
 ```rust
 use user_idle_time::get_idle_time;
-
 let idle = get_idle_time().unwrap();
-
 let idle_seconds = idle.as_secs();
 ```
 
