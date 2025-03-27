@@ -90,6 +90,8 @@ jobs:
         with:
           toolchain: ${{ env.NIGHTLY_TOOLCHAIN }}
           components: miri
+      - name: Install Linux dependencies
+        uses: ./.github/actions/install-linux-dependencies
       - name: CI job
         run: cargo miri test
         env:
