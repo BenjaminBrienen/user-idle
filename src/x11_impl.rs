@@ -1,3 +1,5 @@
+//! Implementation of [`get_idle_time`] for X11.
+
 use std::{ffi::c_void, os::raw::c_char, ptr::null, time::Duration};
 
 use x11::{

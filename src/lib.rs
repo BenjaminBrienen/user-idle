@@ -8,9 +8,8 @@
 //! let idle_seconds = idle.as_secs();
 //! ```
 
-mod error;
-
-pub use error::Error;
+pub type Error = anyhow::Error;
+pub type Result<T> = anyhow::Result<T>;
 
 #[cfg(all(target_os = "linux", feature = "x11"))]
 #[path = "x11_impl.rs"]
@@ -29,6 +28,8 @@ mod idle;
 // mod idle;
 
 pub use idle::get_idle_time;
+
+#[expect(clippy::unwrap_used, reason = "unit tests")]
 #[cfg(test)]
 mod test {
     use std::{thread::sleep, time::Duration};
@@ -40,9 +41,9 @@ mod test {
     #[test]
     // If this test fails, you probably moved your mouse or something while the test was running.
     fn main() {
-        let idle_before = get_idle_time().expect("failed to get idle time 1");
+        let idle_before = get_idle_time().unwrap();
         sleep(DURATION);
-        let idle_after = get_idle_time().expect("failed to get idle time 2");
+        let idle_after = get_idle_time().unwrap();
         assert!(idle_after >= idle_before + DURATION,);
     }
 }

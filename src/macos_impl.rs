@@ -1,3 +1,5 @@
+//! Implementation of [`get_idle_time`] for MacOS.
+
 use std::{io, mem::size_of, ptr::null_mut, time::Duration};
 
 use apple_sys::CoreFoundation::{

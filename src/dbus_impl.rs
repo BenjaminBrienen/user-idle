@@ -1,3 +1,5 @@
+//! Implementation of [`get_idle_time`] using D-Bus.
+
 use crate::error::Error;
 use dbus::blocking::Connection;
 use std::time::Duration;

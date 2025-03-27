@@ -9,6 +9,7 @@ repository = "https://github.com/BenjaminBrienen/user-idle-time"
 readme = "README.md"
 keywords = ["idle", "user", "afk"]
 rust-version = "1.85.1"
+categories = ["Date and time"]
 
 [badges]
 circle-ci = { repository = "BenjaminBrienen/user-idle-time", branch = "main" }
@@ -62,8 +63,6 @@ restriction = { level = "warn", priority = -2 }
 style = { level = "warn", priority = -2 }
 suspicious = { level = "warn", priority = -2 }
 
-exhaustive_structs = "allow"               # wgsl-analyzer has no stability commitment
-exhaustive_enums = "allow"                 # wgsl-analyzer has no stability commitment
 single_call_fn = "allow"                   # good for organization
 implicit_return = "allow"                  # unidiomatic
 question_mark_used = "allow"               # unidiomatic
@@ -71,8 +70,6 @@ shadow_reuse = "allow"                     # often useful
 pub_use = "allow"                          # often useful
 std_instead_of_alloc = "allow"             # no no_std support
 std_instead_of_core = "allow"              # no no_std support
-cargo_common_metadata = "allow"            # not important
-multiple_crate_versions = "allow"          # not under this crate's control
 blanket_clippy_restriction_lints = "allow" # makes it easier to keep up to date with new lints
 pub_with_shorthand = "allow"               # style preference
 absolute_paths = "allow"                   # often hurts readability
@@ -84,30 +81,7 @@ separated_literal_suffix = "allow"         # style preference
 self_named_module_files = "allow"          # style preference
 semicolon_outside_block = "allow"          # style preference
 else_if_without_else = "allow"             # conflicting with redundant_else
+arbitrary_source_item_ordering = "allow"   # does not work with `mod test`s
 
-# TODOs
-missing_docs_in_private_items = "allow"
-arbitrary_source_item_ordering = "allow"
-field_scoped_visibility_modifiers = "allow"
-module_name_repetitions = "allow"
-struct_excessive_bools = "allow"
-arithmetic_side_effects = "allow"
-indexing_slicing = "allow"
-unwrap_used = "allow"
-unwrap_in_result = "allow"
-undocumented_unsafe_blocks = "allow"
-multiple_unsafe_ops_per_block = "allow"
-pattern_type_mismatch = "allow"
-panic_in_result_fn = "allow"
-panic = "allow"
-missing_errors_doc = "allow"
-missing_assert_message = "allow"
-unnecessary_wraps = "allow"
-cast_precision_loss = "allow"
-multiple_inherent_impl = "allow"
-iter_over_hash_type = "allow"
-expect_used = "allow"
-string_slice = "allow"
-cast_possible_truncation = "allow"
-default_numeric_fallback = "allow"
-redundant_pub_crate = "allow"
+[dependencies]
+anyhow = "1.0.97"
