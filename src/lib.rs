@@ -12,11 +12,11 @@ mod error;
 
 pub use error::Error;
 
-#[cfg(all(target_os = "linux", not(feature = "dbus")))]
+#[cfg(all(target_os = "linux", feature = "x11"))]
 #[path = "x11_impl.rs"]
 mod idle;
 
-#[cfg(all(target_os = "linux", feature = "dbus"))]
+#[cfg(all(target_os = "linux", not(feature = "x11")))]
 #[path = "dbus_impl.rs"]
 mod idle;
 
