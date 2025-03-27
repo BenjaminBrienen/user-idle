@@ -1,9 +1,11 @@
 //! Implementation of [`get_idle_time`] using D-Bus.
 
-use crate::Result;
+use std::time::Duration;
+
 use anyhow::anyhow;
 use dbus::blocking::Connection;
-use std::time::Duration;
+
+use crate::Result;
 
 const SCREENSAVERS: &[&[&str]] = &[
     &[

@@ -2,13 +2,13 @@
 
 use std::{ffi::c_void, os::raw::c_char, ptr::null, time::Duration};
 
+use anyhow::anyhow;
 use x11::{
     xlib::{XCloseDisplay, XDefaultScreen, XFree, XOpenDisplay, XRootWindow},
     xss::{XScreenSaverAllocInfo, XScreenSaverQueryInfo},
 };
 
 use crate::Result;
-use anyhow::anyhow;
 
 // Mostly taken from https://stackoverflow.com/questions/222606/detecting-keyboard-mouse-activity-in-linux
 
