@@ -25,6 +25,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
+      - name: Install Linux dependencies
+        uses: ./.github/actions/install-linux-dependencies
       - name: Install cargo-deny
         run: cargo install cargo-deny
       - name: Check for security advisories and unmaintained crates
@@ -35,6 +37,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
+      - name: Install Linux dependencies
+        uses: ./.github/actions/install-linux-dependencies
       - name: Install cargo-deny
         run: cargo install cargo-deny
       - name: Check for banned and duplicated dependencies
@@ -45,6 +49,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
+      - name: Install Linux dependencies
+        uses: ./.github/actions/install-linux-dependencies
       - name: Install cargo-deny
         run: cargo install cargo-deny
       - name: Check for unauthorized licenses
@@ -55,6 +61,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
+      - name: Install Linux dependencies
+        uses: ./.github/actions/install-linux-dependencies
       - name: Install cargo-deny
         run: cargo install cargo-deny
       - name: Checked for unauthorized crate sources

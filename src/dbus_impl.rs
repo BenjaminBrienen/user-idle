@@ -1,10 +1,11 @@
+//! Implementation of [`get_idle_time`] using D-Bus.
+
 use std::time::Duration;
 
+use anyhow::anyhow;
 use dbus::blocking::Connection;
 
-use crate::error::Error;
-
-// Based on https://bitbucket.org/pidgin/main/src/default/pidgin/gtkidle.c
+use crate::Result;
 
 const SCREENSAVERS: &[&[&str]] = &[
     &[
@@ -24,21 +25,24 @@ const SCREENSAVERS: &[&[&str]] = &[
     ],
 ];
 
-pub fn get_idle_time() -> Result<Duration, Error> {
+/// Get the idle time of a user.
+///
+/// # Errors
+///
+/// Errors if a system call fails.
+#[inline]
+pub fn get_idle_time() -> Result<Duration> {
     for screensaver in SCREENSAVERS {
-        let Ok(conn) = Connection::new_session() else {continue};
+        let Ok(conn) = Connection::new_session() else {
+            continue;
+        };
+        assert!(screensaver.len() > 2);
+        let proxy = conn.with_proxy(screensaver[0], screensaver[1], Duration::from_millis(5000));
 
-        let proxy = conn.with_proxy(
-            screensaver[0],
-            screensaver[1],
-            Duration::from_millis(5000),
-        );
-
-        let (time,): (u32,) =
-            match proxy.method_call(screensaver[2], "GetActiveTime", ()) {
-                Ok(v) => v,
-                Err(_) => continue,
-            };
+        let (time,): (u32,) = match proxy.method_call(screensaver[2], "GetActiveTime", ()) {
+            Ok(value) => value,
+            Err(_) => continue,
+        };
 
         // freedesktop seems to return the time in milliseconds??
         if screensaver[0] == "org.freedesktop.ScreenSaver" {
@@ -48,5 +52,15 @@ pub fn get_idle_time() -> Result<Duration, Error> {
         return Ok(Duration::from_secs(u64::from(time)));
     }
 
-    Err(Error::new("No screensaver available"))
+    Err(anyhow!("No screensaver available"))
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn does_not_panic() {
+        get_idle_time().unwrap();
+    }
 }

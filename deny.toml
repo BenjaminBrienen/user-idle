@@ -3,10 +3,7 @@ all-features = true
 
 [advisories]
 version = 2
-ignore = [
-  # TODO: #157 - Delete this once salsa has been bumped.
-  "RUSTSEC-2024-0384",
-]
+ignore = []
 
 # Ignore warnings about unused license exceptions
 [licenses]

@@ -1,4 +1,6 @@
-# Get the idle time of a user
+# `user-idle-time`
+
+Get the idle time of a user
 
 | OS              | Supported |
 | --------------- | --------- |
@@ -6,20 +8,19 @@
 | Linux (dbus)    | ✔️*        |
 | Linux (wayland) | ❌         |
 | Windows         | ✔️         |
-| MacOS           | ✔️         |
+| MacOS           | ❌         |
 
-\* DBus returns the time the session has been locked, not the time since the last user input event.
+> [!NOTE]
+> DBus returns the time the session has been locked, not the time since the last user input event.
+>
+> By default, x11 is used on Linux. DBus can be enabled in `Cargo.toml` by disabling default-features and enabling `dbus`.
 
-By default, x11 is used on Linux. DBus can be enabled in `Cargo.toml` by disabling default-features and enabling `dbus`.
-
-### Example
+## Example
 
 ```rust
-use user_idle::UserIdle;
-
-let idle = UserIdle::get_time().unwrap();
-
-let idle_seconds = idle.as_seconds();
-let idle_minutes = idle.as_minutes();
+use user_idle_time::get_idle_time;
+let idle = get_idle_time().unwrap();
+let idle_seconds = idle.as_secs();
 ```
-Check the [documentation](https://docs.rs/user-idle-time/latest/user_idle/) for more methods
+
+Check the [documentation](https://docs.rs/user-idle-time/latest/user-idle-time/) for more methods.

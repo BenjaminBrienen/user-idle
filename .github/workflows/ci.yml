@@ -17,7 +17,12 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest]
+        os: [
+            windows-latest,
+            ubuntu-latest,
+            # MacOS impl is broken
+            # macos-latest,
+          ]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
     steps:
@@ -32,6 +37,40 @@ jobs:
             target/
           key: ${{ runner.os }}-cargo-build-stable-${{ hashFiles('**/Cargo.toml') }}
       - uses: dtolnay/rust-toolchain@stable
+      - name: Install Linux dependencies
+        uses: ./.github/actions/install-linux-dependencies
+      - name: Build & run tests
+        run: cargo build --workspace --lib --bins --tests --benches
+        env:
+          CARGO_INCREMENTAL: 0
+          RUSTFLAGS: "-C debuginfo=0 -D warnings"
+
+  test:
+    strategy:
+      matrix:
+        os: [
+            windows-latest,
+            # CI does not have a display
+            # ubuntu-latest,
+            # MacOS impl is broken
+            # macos-latest,
+          ]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-build-stable-${{ hashFiles('**/Cargo.toml') }}
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Install Linux dependencies
+        uses: ./.github/actions/install-linux-dependencies
       - name: Build & run tests
         run: cargo test --workspace --lib --bins --tests --benches
         env:
@@ -39,7 +78,15 @@ jobs:
           RUSTFLAGS: "-C debuginfo=0 -D warnings"
 
   lint:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [
+            windows-latest,
+            ubuntu-latest,
+            # MacOS impl is broken
+            # macos-latest,
+          ]
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
@@ -57,35 +104,54 @@ jobs:
           components: rustfmt, clippy
       - name: Check formatting
         run: cargo fmt --all -- --check
+      - name: Install Linux dependencies
+        uses: ./.github/actions/install-linux-dependencies
       - name: Clippy
         run: cargo clippy --workspace --all-targets --all-features -- -Dwarnings
 
-  miri:
-    # Explicitly use macOS 14 to take advantage of M1 chip.
-    runs-on: macos-14
-    timeout-minutes: 60
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: ${{ runner.os }}-cargo-miri-${{ hashFiles('**/Cargo.toml') }}
-      - uses: dtolnay/rust-toolchain@master
-        with:
-          toolchain: ${{ env.NIGHTLY_TOOLCHAIN }}
-          components: miri
-      - name: CI job
-        run: cargo miri test
-        env:
-          RUSTFLAGS: -Zrandomize-layout
+  # Miri does not support the necessary operations
+  # miri:
+  #   strategy:
+  #     matrix:
+  #       os: [
+  #           windows-latest,
+  #           ubuntu-latest,
+  #           macos-latest
+  #         ]
+  #   runs-on: ${{ matrix.os }}
+  #   timeout-minutes: 60
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: actions/cache@v4
+  #       with:
+  #         path: |
+  #           ~/.cargo/bin/
+  #           ~/.cargo/registry/index/
+  #           ~/.cargo/registry/cache/
+  #           ~/.cargo/git/db/
+  #           target/
+  #         key: ${{ runner.os }}-cargo-miri-${{ hashFiles('**/Cargo.toml') }}
+  #     - uses: dtolnay/rust-toolchain@master
+  #       with:
+  #         toolchain: ${{ env.NIGHTLY_TOOLCHAIN }}
+  #         components: miri
+  #     - name: Install Linux dependencies
+  #       uses: ./.github/actions/install-linux-dependencies
+  #     - name: CI job
+  #       run: cargo miri test
+  #       env:
+  #         RUSTFLAGS: -Zrandomize-layout
 
   check-compiles:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [
+            windows-latest,
+            ubuntu-latest,
+            # MacOS impl is broken
+            # macos-latest,
+          ]
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 30
     needs: lint
     steps:
@@ -102,16 +168,26 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: stable
+      - name: Install Linux dependencies
+        uses: ./.github/actions/install-linux-dependencies
       - name: Check Compile
         run: |
-          cargo test --target-dir ../../../target
+          cargo check --target-dir ../../../target
           # cargo check --benches --target-dir ../target --manifest-path ./benches/Cargo.toml
           cargo check --workspace --examples
           cargo check --workspace
           cargo check --workspace --tests
 
-  check-compiles-no-default-features:
-    runs-on: ubuntu-latest
+  check-compiles-dbus:
+    strategy:
+      matrix:
+        os: [
+            windows-latest,
+            ubuntu-latest,
+            # MacOS impl is broken
+            # macos-latest,
+          ]
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 30
     needs: lint
     steps:
@@ -124,12 +200,14 @@ jobs:
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
             target/
-          key: ${{ runner.os }}-cargo-check-compiles-no-std-${{ hashFiles('**/Cargo.toml') }}
+          key: ${{ runner.os }}-cargo-check-compiles-no-default-${{ hashFiles('**/Cargo.toml') }}
       - uses: dtolnay/rust-toolchain@stable
         with:
           targets: x86_64-unknown-none
+      - name: Install Linux dependencies
+        uses: ./.github/actions/install-linux-dependencies
       - name: Check Compile
-        run: cargo check --no-default-features
+        run: cargo check --no-default-features --features dbus
 
   markdownlint:
     runs-on: ubuntu-latest
@@ -185,7 +263,15 @@ jobs:
           echo 'You can find the extension here: https://marketplace.visualstudio.com/items?itemName=tekumara.typos-vscode'
 
   check-doc:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [
+            windows-latest,
+            ubuntu-latest,
+            # MacOS impl is broken
+            # macos-latest,
+          ]
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
@@ -201,24 +287,27 @@ jobs:
       - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{ env.NIGHTLY_TOOLCHAIN }}
+      - name: Install dependencies on Linux
+        if: runner.os == 'Linux'
+        run: sudo add-apt-repository universe && sudo add-apt-repository universe && sudo apt-get update && sudo apt-get install -y libx11-dev libxss-dev libdbus-1-dev pkg-config
       - name: Build doc
         run: cargo doc --workspace --all-features --no-deps --document-private-items --keep-going
         env:
           CARGO_INCREMENTAL: 0
           RUSTFLAGS: "-C debuginfo=0 --cfg docsrs_dep"
-      - name: Check doc
+      - name: Test doc
+        if: runner.os != 'Linux' # Disable this step on Linux
         run: cargo test --workspace --doc
         env:
           CARGO_INCREMENTAL: 0
           RUSTFLAGS: "-C debuginfo=0 --cfg docsrs_dep"
       - name: Installs cargo-deadlinks
         run: cargo install --force cargo-deadlinks
-      - name: Checks dead links
-        run: cargo deadlinks --dir target/doc
+      - name: Check dead links
+        run: cargo deadlinks --check-http
         continue-on-error: true
 
   check-unused-dependencies:
-    if: ${{ github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -240,6 +329,9 @@ jobs:
         uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{ env.NIGHTLY_TOOLCHAIN }}
+
+      - name: Install Linux dependencies
+        uses: ./.github/actions/install-linux-dependencies
 
       - name: Check if cargo-udeps is installed
         id: cargo-udeps-check
