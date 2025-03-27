@@ -35,7 +35,7 @@ pub fn get_idle_time() -> Result<Duration, Error> {
         let proxy = conn.with_proxy(screensaver[0], screensaver[1], Duration::from_millis(5000));
 
         let (time,): (u32,) = match proxy.method_call(screensaver[2], "GetActiveTime", ()) {
-            Ok(v) => v,
+            Ok(value) => value,
             Err(_) => continue,
         };
 
