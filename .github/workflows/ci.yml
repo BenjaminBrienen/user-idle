@@ -19,8 +19,7 @@ jobs:
       matrix:
         os: [
             windows-latest,
-            # CI does not have a display
-            # ubuntu-latest,
+            ubuntu-latest,
             # MacOS impl is broken
             # macos-latest,
           ]
