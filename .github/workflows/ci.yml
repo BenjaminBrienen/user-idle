@@ -65,8 +65,15 @@ jobs:
         run: cargo clippy --workspace --all-targets --all-features -- -Dwarnings
 
   miri:
-    # Explicitly use macOS 14 to take advantage of M1 chip.
-    runs-on: macos-14
+    strategy:
+      matrix:
+        os: [
+            windows-latest,
+            ubuntu-latest,
+            # https://github.com/rust-lang/miri/issues/4238
+            # macos-latest
+          ]
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
