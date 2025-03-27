@@ -3,7 +3,7 @@ Get the idle time of a user
 
 The time returned is the time since the last user input event
 
-See the [`README.md`](https://github.com/olback/user-idle-rs/blob/master/README.md) for more information
+See the [`README.md`](https://github.com/olback/user-idle-time-rs/blob/master/README.md) for more information
 
 Example:
 ```

@@ -110,7 +110,7 @@
 			"mdBook",
 			"rust-analyzer",
 			"wgsl-formatter",
-			"user-idle",
+			"user-idle-time",
 			"Rust",
 			"WGSL",
 			"wgsl-src",

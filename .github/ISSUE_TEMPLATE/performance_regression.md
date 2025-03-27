@@ -6,7 +6,7 @@ labels: C-Bug, C-Performance, P-Regression, S-Needs-Triage
 assignees: ''
 ---
 
-## `user-idle` version
+## `user-idle-time` version
 
 Original: `` <!-- The release number or commit hash of the version you last tested your app against. -->
 

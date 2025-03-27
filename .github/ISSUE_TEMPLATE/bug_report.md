@@ -6,7 +6,7 @@ labels: C-Bug, S-Needs-Triage
 assignees: ''
 ---
 
-## `user-idle` version
+## `user-idle-time` version
 
 The release number or commit hash of the version you are using.
 

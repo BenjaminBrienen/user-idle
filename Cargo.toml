@@ -1,17 +1,17 @@
 [package]
-name = "user-idle"
+name = "user-idle-time"
 version = "0.6.0"
 edition = "2024"
 description = "Get a user's idle time."
 license = "MIT OR Apache-2.0"
-homepage = "https://github.com/BenjaminBrienen/user-idle"
-repository = "https://github.com/BenjaminBrienen/user-idle"
+homepage = "https://github.com/BenjaminBrienen/user-idle-time"
+repository = "https://github.com/BenjaminBrienen/user-idle-time"
 readme = "README.md"
 keywords = ["idle", "user", "afk"]
 rust-version = "1.85.1"
 
 [badges]
-circle-ci = { repository = "BenjaminBrienen/user-idle", branch = "main" }
+circle-ci = { repository = "BenjaminBrienen/user-idle-time", branch = "main" }
 
 [package.metadata.docs.rs]
 all-features = false
