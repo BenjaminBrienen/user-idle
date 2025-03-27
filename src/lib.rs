@@ -45,6 +45,9 @@ mod test {
         let idle_before = get_idle_time().expect("Failed to get idle time 1");
         sleep(DURATION);
         let idle_after = get_idle_time().expect("Failed to get idle time 2");
-        assert!(idle_after.checked_sub(idle_before) < Some(THRESHOLD));
+        let result = idle_after
+            .checked_sub(idle_before)
+            .and_then(|result| result.checked_sub(DURATION));
+        assert!(result < Some(THRESHOLD));
     }
 }
