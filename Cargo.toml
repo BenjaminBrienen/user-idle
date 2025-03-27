@@ -1,17 +1,17 @@
 [package]
 name = "user-idle"
 version = "0.6.0"
-authors = ["Edwin Svensson <user_idle_rs@olback.net>"]
-edition = "2021"
-description = "Get a users idle time."
+edition = "2024"
+description = "Get a user's idle time."
 license = "MIT OR Apache-2.0"
-homepage = "https://github.com/olback/user-idle-rs"
-repository = "https://github.com/olback/user-idle-rs"
+homepage = "https://github.com/BenjaminBrienen/user-idle"
+repository = "https://github.com/BenjaminBrienen/user-idle"
 readme = "README.md"
-keywords = ["idle", "gui", "ui", "user", "afk"]
+keywords = ["idle", "user", "afk"]
+rust-version = "1.85.1"
 
 [badges]
-circle-ci = { repository = "olback/user-idle-rs", branch = "master" }
+circle-ci = { repository = "BenjaminBrienen/user-idle", branch = "main" }
 
 [package.metadata.docs.rs]
 all-features = false
