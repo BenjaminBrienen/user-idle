@@ -18,7 +18,7 @@ pub fn get_idle_time() -> Result<Duration, Error> {
     unsafe {
         let info = XScreenSaverAllocInfo();
         let display = XOpenDisplay(null::<c_char>());
-        if (display == null::<c_char>()) {
+        if (display.is_null()) {
             return Err(Error::new("Failed to open display"));
         }
         let screen = XDefaultScreen(display);
