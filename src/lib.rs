@@ -39,6 +39,7 @@ mod test {
     const TEST_SECS: u64 = 10;
 
     #[test]
+    // If this test fails, you probably moved your mouse or something while the test was running.
     fn main() {
         sleep(Duration::from_secs(TEST_SECS));
         let idle = get_idle_time().unwrap();
