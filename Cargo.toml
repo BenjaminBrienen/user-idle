@@ -1,6 +1,6 @@
 [package]
 name = "user-idle-time"
-version = "0.6.0"
+version = "0.7.0"
 edition = "2024"
 description = "Get a user's idle time."
 license = "MIT OR Apache-2.0"
@@ -9,7 +9,7 @@ repository = "https://github.com/BenjaminBrienen/user-idle-time"
 readme = "README.md"
 keywords = ["idle", "user", "afk"]
 rust-version = "1.85.1"
-categories = ["Date and time"]
+categories = ["date-and-time"]
 resolver = "2"
 
 [badges]
