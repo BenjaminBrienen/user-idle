@@ -18,8 +18,7 @@ impl fmt::Display for Error {
     #[inline]
     fn fmt(
         &self,
-        #[expect(clippy::min_ident_chars, reason = "trait impl")]
-        f: &mut fmt::Formatter<'_>,
+        #[expect(clippy::min_ident_chars, reason = "trait impl")] f: &mut fmt::Formatter<'_>,
     ) -> fmt::Result {
         write!(f, "{}", self.cause)
     }

@@ -10,9 +10,9 @@ use crate::error::Error;
 // Mostly taken from https://stackoverflow.com/questions/222606/detecting-keyboard-mouse-activity-in-linux
 
 /// Get the idle time of a user.
-/// 
+///
 /// # Panics
-/// 
+///
 /// Panics if a system call fails or if time flows backwards.
 pub fn get_idle_time() -> Result<Duration, Error> {
     unsafe {

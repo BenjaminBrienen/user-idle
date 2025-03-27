@@ -25,9 +25,9 @@ const SCREENSAVERS: &[&[&str]] = &[
 ];
 
 /// Get the idle time of a user.
-/// 
+///
 /// # Panics
-/// 
+///
 /// Panics if a system call fails or if time flows backwards.
 pub fn get_idle_time() -> Result<Duration, Error> {
     for screensaver in SCREENSAVERS {
