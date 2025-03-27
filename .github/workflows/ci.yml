@@ -69,7 +69,8 @@ jobs:
       matrix:
         os: [
             windows-latest,
-            ubuntu-latest,
+            # https://github.com/rust-lang/miri/issues/4239
+            # ubuntu-latest,
             # https://github.com/rust-lang/miri/issues/4238
             # macos-latest
           ]
