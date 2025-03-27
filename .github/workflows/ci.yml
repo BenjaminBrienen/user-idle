@@ -14,32 +14,32 @@ concurrency:
   cancel-in-progress: ${{github.event_name == 'pull_request'}}
 
 jobs:
-    build:
-      strategy:
-        matrix:
-          os: [windows-latest, ubuntu-latest, macos-latest]
-      runs-on: ${{ matrix.os }}
-      timeout-minutes: 30
-      steps:
-        - uses: actions/checkout@v4
-        - uses: actions/cache@v4
-          with:
-            path: |
-              ~/.cargo/bin/
-              ~/.cargo/registry/index/
-              ~/.cargo/registry/cache/
-              ~/.cargo/git/db/
-              target/
-            key: ${{ runner.os }}-cargo-build-stable-${{ hashFiles('**/Cargo.toml') }}
-        - uses: dtolnay/rust-toolchain@stable
-        - name: Install dependencies on Linux
-          if: runner.os == 'Linux'
-          run: sudo apt-get update && sudo apt-get install -y libx11-dev
-        - name: Build & run tests
-          run: cargo test --workspace --lib --bins --tests --benches
-          env:
-            CARGO_INCREMENTAL: 0
-            RUSTFLAGS: "-C debuginfo=0 -D warnings"
+  build:
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-build-stable-${{ hashFiles('**/Cargo.toml') }}
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Install dependencies on Linux
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y libx11-dev
+      - name: Build & run tests
+        run: cargo test --workspace --lib --bins --tests --benches
+        env:
+          CARGO_INCREMENTAL: 0
+          RUSTFLAGS: "-C debuginfo=0 -D warnings"
 
   lint:
     runs-on: ubuntu-latest
