@@ -31,7 +31,7 @@ windows-sys = { version = "0.59.0", features = [
 ] }
 
 [target.'cfg(target_os = "macos")'.dependencies]
-apple-sys = { version = "0.2.0", features=["CoreFoundation", "IOKit"] }
+apple-sys = { version = "0.2.0", features = ["CoreFoundation", "IOKit"] }
 mach2 = "0.4.2"
 cstr = "0.2.12"
 
