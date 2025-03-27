@@ -10,6 +10,7 @@ readme = "README.md"
 keywords = ["idle", "user", "afk"]
 rust-version = "1.85.1"
 categories = ["Date and time"]
+resolver = "2"
 
 [badges]
 circle-ci = { repository = "BenjaminBrienen/user-idle-time", branch = "main" }

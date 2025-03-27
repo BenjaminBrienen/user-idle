@@ -180,7 +180,7 @@ jobs:
           cargo check --workspace
           cargo check --workspace --tests
 
-  check-compiles-no-default-features:
+  check-compiles-dbus:
     strategy:
       matrix:
         os: [
@@ -209,7 +209,7 @@ jobs:
       - name: Install Linux dependencies
         uses: ./.github/actions/install-linux-dependencies
       - name: Check Compile
-        run: cargo check --no-default-features
+        run: cargo check --no-default-features --features dbus
 
   markdownlint:
     runs-on: ubuntu-latest
