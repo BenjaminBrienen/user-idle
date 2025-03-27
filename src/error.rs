@@ -1,4 +1,4 @@
-use std::fmt;
+use core::fmt;
 
 #[derive(Debug)]
 pub struct Error {
@@ -6,16 +6,19 @@ pub struct Error {
 }
 
 impl Error {
-    pub fn new<C: Into<String>>(cause: C) -> Error {
-        Error {
+    #[inline]
+    pub fn new<C: Into<String>>(cause: C) -> Self {
+        Self {
             cause: cause.into(),
         }
     }
 }
 
 impl fmt::Display for Error {
+    #[inline]
     fn fmt(
         &self,
+        #[expect(clippy::min_ident_chars, reason = "trait impl")]
         f: &mut fmt::Formatter<'_>,
     ) -> fmt::Result {
         write!(f, "{}", self.cause)

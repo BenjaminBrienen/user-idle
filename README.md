@@ -18,12 +18,11 @@
 ## Example
 
 ```rust
-use user_idle_time::UserIdle;
+use user_idle_time::get_idle_time;
 
-let idle = UserIdle::get_time().unwrap();
+let idle = get_idle_time().unwrap();
 
-let idle_seconds = idle.as_seconds();
-let idle_minutes = idle.as_minutes();
+let idle_seconds = idle.as_secs();
 ```
 
 Check the [documentation](https://docs.rs/user-idle-time/latest/user-idle-time/) for more methods.

@@ -3,10 +3,9 @@
 //!
 //! Example:
 //! ```
-//! use user_idle_time::UserIdle;
-//! let idle = UserIdle::get_time().unwrap();
-//! let idle_seconds = idle.as_seconds();
-//! let idle_minutes = idle.as_minutes();
+//! use user_idle_time::get_idle_time;
+//! let idle = get_idle_time().unwrap();
+//! let idle_seconds = idle.as_secs();
 //! ```
 
 mod error;

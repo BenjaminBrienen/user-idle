@@ -16,6 +16,11 @@ use mach::{
 
 use crate::error::Error;
 
+/// Get the idle time of a user.
+/// 
+/// # Panics
+/// 
+/// Panics if a system call fails or if time flows backwards.
 pub fn get_idle_time() -> Result<Duration, Error> {
     let mut ns = 0u64;
     let mut port: mach_port_t = 0;
