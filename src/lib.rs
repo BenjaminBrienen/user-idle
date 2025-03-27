@@ -37,12 +37,14 @@ mod test {
     use super::get_idle_time;
 
     const TEST_SECS: u64 = 10;
+    const DURATION: Duration = Duration::from_secs(TEST_SECS);
 
     #[test]
     // If this test fails, you probably moved your mouse or something while the test was running.
     fn main() {
-        sleep(Duration::from_secs(TEST_SECS));
-        let idle = get_idle_time().unwrap();
-        assert_eq!(idle.as_secs(), TEST_SECS);
+        let idle_before = get_idle_time().expect("Failed to get idle time 1");
+        sleep(DURATION);
+        let idle_after = get_idle_time().expect("Failed to get idle time 2");
+        assert_eq!(idle_before.checked_sub(idle_after), Some(DURATION));
     }
 }
