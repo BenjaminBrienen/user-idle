@@ -18,7 +18,7 @@ use crate::Result;
 ///
 /// Errors if a system call fails.
 #[inline]
-pub fn get_idle_time() -> Result<Duration, Error> {
+pub fn get_idle_time() -> Result<Duration> {
     // SAFETY: info and display are freed
     unsafe {
         let info = XScreenSaverAllocInfo();

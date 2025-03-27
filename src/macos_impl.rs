@@ -29,7 +29,7 @@ use anyhow::anyhow;
 #[expect(clippy::cast_sign_loss, reason = "manually validated")]
 #[expect(clippy::cast_possible_wrap, reason = "manually validated")]
 #[expect(clippy::host_endian_bytes, reason = "manually validated")]
-pub fn get_idle_time() -> Result<Duration, Error> {
+pub fn get_idle_time() -> Result<Duration> {
     let mut ns = 0_u64;
     let mut port: mach_port_t = 0;
     let mut iter = 0;
