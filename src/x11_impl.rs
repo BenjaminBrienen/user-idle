@@ -32,7 +32,8 @@ pub fn get_idle_time() -> Result<Duration> {
     let root_window = unsafe { XRootWindow(display, screen) };
     // SAFETY: `display` is checked to be valid.
     let status = unsafe { XScreenSaverQueryInfo(display, root_window, info) };
-    let time = (*info).idle;
+    // SAFETY: `info` is a valid pointer.
+    let time = unsafe { (*info).idle };
 
     // SAFETY: `info` has not been freed yet.
     unsafe {
