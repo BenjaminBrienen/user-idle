@@ -19,25 +19,33 @@ use crate::Result;
 /// Errors if a system call fails.
 #[inline]
 pub fn get_idle_time() -> Result<Duration> {
-    // SAFETY: info and display are freed
+    // SAFETY: `info` is freed at the end of the function.
+    let info = unsafe { XScreenSaverAllocInfo() };
+    // SAFETY: `display` is closed at the end of the function.
+    let display = unsafe { XOpenDisplay(null::<c_char>()) };
+    if (display.is_null()) {
+        return Err(anyhow!("Failed to open display"));
+    }
+    // SAFETY: `display` is checked to be valid.
+    let screen = unsafe { XDefaultScreen(display) };
+    // SAFETY: `display` is checkced to be valid.
+    let root_window = unsafe { XRootWindow(display, screen) };
+    // SAFETY: `display` is checked to be valid.
+    let status = unsafe { XScreenSaverQueryInfo(display, root_window, info) };
+    let time = (*info).idle;
+
+    // SAFETY: `info` has not been freed yet.
     unsafe {
-        let info = XScreenSaverAllocInfo();
-        let display = XOpenDisplay(null::<c_char>());
-        if (display.is_null()) {
-            return Err(anyhow!("Failed to open display"));
-        }
-        let screen = XDefaultScreen(display);
-        let root_window = XRootWindow(display, screen);
-        let status = XScreenSaverQueryInfo(display, root_window, info);
-        let time = (*info).idle;
-
         XFree(info.cast::<c_void>());
+    }
+    // SAFETY: `displat` has not been closed yet.
+    unsafe {
         XCloseDisplay(display);
+    }
 
-        if status == 1 {
-            Ok(Duration::from_millis(time))
-        } else {
-            Err(anyhow!("XScreenSaverQueryInfo is not OK"))
-        }
+    if status == 1 {
+        Ok(Duration::from_millis(time))
+    } else {
+        Err(anyhow!("XScreenSaverQueryInfo is not OK"))
     }
 }
