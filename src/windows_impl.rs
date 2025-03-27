@@ -12,13 +12,9 @@ use crate::Result;
 
 /// Get the idle time of a user.
 ///
-/// # Panics
-///
-/// Panics if time flows backwards.
-/// 
 /// # Errors
 /// 
-/// If [`GetLastInputInfo`] failed.
+/// Errors if a system call failed.
 #[inline]
 pub fn get_idle_time() -> Result<Duration> {
     // SAFETY: function has no preconditions

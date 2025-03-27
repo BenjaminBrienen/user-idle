@@ -3,10 +3,9 @@
 use std::{io, mem::size_of, ptr::null_mut, time::Duration};
 
 use apple_sys::CoreFoundation::{
-    CFDataGetBytes, CFDataGetTypeID, CFDataRef, CFDictionaryGetValueIfPresent, CFGetTypeID,
-    CFIndex, CFNumberGetTypeID, CFNumberGetValue, CFNumberRef, CFRange, CFRelease,
-    CFStringCreateWithCString, CFTypeRef, CFAllocatorDefault, CFNumberSInt64Type,
-    CFStringEncodingUTF8,
+    CFAllocatorDefault, CFDataGetBytes, CFDataGetTypeID, CFDataRef, CFDictionaryGetValueIfPresent,
+    CFGetTypeID, CFIndex, CFNumberGetTypeID, CFNumberGetValue, CFNumberRef, CFNumberSInt64Type,
+    CFRange, CFRelease, CFStringCreateWithCString, CFStringEncodingUTF8, CFTypeRef,
 };
 use apple_sys::IOKit::{
     IOIteratorNext, IOMasterPort, IOObjectRelease, IORegistryEntryCreateCFProperties,
@@ -17,13 +16,14 @@ use mach2::{
     port::{MACH_PORT_NULL, mach_port_t},
 };
 
-use crate::error::Error;
+use crate::Result;
+use anyhow::anyhow;
 
 /// Get the idle time of a user.
-///
-/// # Panics
-///
-/// Panics if a system call fails or if time flows backwards.
+/// 
+/// # Errors
+/// 
+/// Errors if a system call fails.
 #[inline]
 #[expect(clippy::as_conversions, reason = "manually validated")]
 #[expect(clippy::cast_sign_loss, reason = "manually validated")]
@@ -40,9 +40,10 @@ pub fn get_idle_time() -> Result<Duration, Error> {
     unsafe {
         let port_result = IOMasterPort(MACH_PORT_NULL, std::ptr::from_mut(&mut port));
         if port_result != KERN_SUCCESS {
-            return Err(Error {
-                cause: format!("Unable to open mach port: {}", io::Error::last_os_error()),
-            });
+            return Err(anyhow!(
+                "Unable to open mach port: {}",
+                io::Error::last_os_error()
+            ));
         }
 
         let service_name = cstr::cstr!("IOHIDSystem");
@@ -52,12 +53,10 @@ pub fn get_idle_time() -> Result<Duration, Error> {
             &mut iter,
         );
         if service_result != KERN_SUCCESS {
-            return Err(Error {
-                cause: format!(
-                    "Unable to lookup IOHIDSystem: {}",
-                    io::Error::last_os_error()
-                ),
-            });
+            return Err(anyhow!(
+                "Unable to lookup IOHIDSystem: {}",
+                io::Error::last_os_error()
+            ));
         }
 
         if iter > 0 {

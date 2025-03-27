@@ -1,6 +1,7 @@
 //! Implementation of [`get_idle_time`] using D-Bus.
 
-use crate::error::Error;
+use crate::Result;
+use anyhow::anyhow;
 use dbus::blocking::Connection;
 use std::time::Duration;
 
@@ -24,11 +25,11 @@ const SCREENSAVERS: &[&[&str]] = &[
 
 /// Get the idle time of a user.
 ///
-/// # Panics
+/// # Errors
 ///
-/// Panics if a system call fails or if time flows backwards.
+/// Errors if a system call fails.
 #[inline]
-pub fn get_idle_time() -> Result<Duration, Error> {
+pub fn get_idle_time() -> Result<Duration> {
     for screensaver in SCREENSAVERS {
         let Ok(conn) = Connection::new_session() else {
             continue;
@@ -49,7 +50,7 @@ pub fn get_idle_time() -> Result<Duration, Error> {
         return Ok(Duration::from_secs(u64::from(time)));
     }
 
-    Err(Error::new("No screensaver available"))
+    Err(anyhow!("No screensaver available"))
 }
 
 #[cfg(test)]

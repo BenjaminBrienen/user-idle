@@ -7,22 +7,24 @@ use x11::{
     xss::{XScreenSaverAllocInfo, XScreenSaverQueryInfo},
 };
 
-use crate::error::Error;
+use crate::Result;
+use anyhow::anyhow;
 
 // Mostly taken from https://stackoverflow.com/questions/222606/detecting-keyboard-mouse-activity-in-linux
 
 /// Get the idle time of a user.
-///
-/// # Panics
-///
-/// Panics if a system call fails or if time flows backwards.
+/// 
+/// # Errors
+/// 
+/// Errors if a system call fails.
 #[inline]
 pub fn get_idle_time() -> Result<Duration, Error> {
+    // SAFETY: info and display are freed
     unsafe {
         let info = XScreenSaverAllocInfo();
         let display = XOpenDisplay(null::<c_char>());
         if (display.is_null()) {
-            return Err(Error::new("Failed to open display"));
+            return Err(anyhow!("Failed to open display"));
         }
         let screen = XDefaultScreen(display);
         let root_window = XRootWindow(display, screen);
@@ -35,7 +37,7 @@ pub fn get_idle_time() -> Result<Duration, Error> {
         if status == 1 {
             Ok(Duration::from_millis(time))
         } else {
-            Err(Error::new("Status not OK"))
+            Err(anyhow!("XScreenSaverQueryInfo is not OK"))
         }
     }
 }
