@@ -9,7 +9,7 @@ use IOKit_sys::{
     IOIteratorNext, IOMasterPort, IOObjectRelease, IORegistryEntryCreateCFProperties,
     IOServiceGetMatchingServices, IOServiceMatching,
 };
-use mach::{
+use mach2::{
     kern_return::KERN_SUCCESS,
     port::{MACH_PORT_NULL, mach_port_t},
 };
