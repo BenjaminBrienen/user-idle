@@ -1,12 +1,12 @@
 use std::{io, mem::size_of, ptr::null_mut, time::Duration};
 
-use CoreFoundation_sys::{
+use apple_sys::{
     CFDataGetBytes, CFDataGetTypeID, CFDataRef, CFDictionaryGetValueIfPresent, CFGetTypeID,
     CFIndex, CFNumberGetTypeID, CFNumberGetValue, CFNumberRef, CFRange, CFRelease,
     CFStringCreateWithCString, CFTypeRef, kCFAllocatorDefault, kCFNumberSInt64Type,
     kCFStringEncodingUTF8,
 };
-use IOKit_sys::{
+use apple_sys::{
     IOIteratorNext, IOMasterPort, IOObjectRelease, IORegistryEntryCreateCFProperties,
     IOServiceGetMatchingServices, IOServiceMatching,
 };

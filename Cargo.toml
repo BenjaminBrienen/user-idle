@@ -31,11 +31,9 @@ windows-sys = { version = "0.59.0", features = [
 ] }
 
 [target.'cfg(target_os = "macos")'.dependencies]
-IOKit-sys = "0.1.5"
+apple-sys = { version = "0.2.0", features=["CoreFoundation", "IOKit"] }
 mach2 = "0.4.2"
-CoreFoundation-sys = "0.1.4"
 cstr = "0.2.12"
-
 
 [lints.rust]
 warnings = { level = "warn", priority = -2 }
