@@ -30,6 +30,7 @@ windows-sys = { version = "0.59.0", features = [
   "Win32_UI_Input_KeyboardAndMouse",
 ] }
 
+# MacOS impl is broken
 # [target.'cfg(target_os = "macos")'.dependencies]
 # apple-sys = { version = "0.2.0", features = ["CoreFoundation", "IOKit"] }
 # mach2 = "0.4.2"
