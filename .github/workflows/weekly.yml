@@ -18,9 +18,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@beta
-      - name: Install dependencies on Linux
-        if: runner.os == 'Linux'
-        run: sudo add-apt-repository universe && sudo apt-get update && sudo apt-get install -y libx11-dev libxss-dev libdbus-1-dev pkg-config
+      - name: Install Linux dependencies
+        uses: ./.github/actions/install-linux-dependencies
       - name: Build & run tests
         run: cargo test --workspace --lib --bins --tests --benches
         env:
@@ -37,9 +36,8 @@ jobs:
           components: rustfmt, clippy
       - name: Check formatting
         run: cargo fmt --all -- --check
-      - name: Install dependencies on Linux
-        if: runner.os == 'Linux'
-        run: sudo add-apt-repository universe && sudo apt-get update && sudo apt-get install -y libx11-dev libxss-dev libdbus-1-dev pkg-config
+      - name: Install Linux dependencies
+        uses: ./.github/actions/install-linux-dependencies
       - name: Clippy
         run: cargo clippy --workspace --all-targets --all-features -- -Dwarnings
 
@@ -59,9 +57,8 @@ jobs:
             target/
           key: ${{ runner.os }}-cargo-check-compiles-${{ hashFiles('**/Cargo.toml') }}
       - uses: dtolnay/rust-toolchain@beta
-      - name: Install dependencies on Linux
-        if: runner.os == 'Linux'
-        run: sudo add-apt-repository universe && sudo apt-get update && sudo apt-get install -y libx11-dev libxss-dev libdbus-1-dev pkg-config
+      - name: Install Linux dependencies
+        uses: ./.github/actions/install-linux-dependencies
       - name: Check Compile
         run: |
           cargo test --target-dir ../../../target
@@ -85,9 +82,8 @@ jobs:
             target/
           key: ${{ runner.os }}-check-doc-${{ hashFiles('**/Cargo.toml') }}
       - uses: dtolnay/rust-toolchain@beta
-      - name: Install dependencies on Linux
-        if: runner.os == 'Linux'
-        run: sudo add-apt-repository universe && sudo apt-get update && sudo apt-get install -y libx11-dev libxss-dev libdbus-1-dev pkg-config
+      - name: Install Linux dependencies
+        uses: ./.github/actions/install-linux-dependencies
       - name: Build doc
         run: cargo doc --workspace --all-features --no-deps --document-private-items --keep-going
         env:
