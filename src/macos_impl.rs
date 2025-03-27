@@ -1,19 +1,17 @@
 use std::{io, mem::size_of, ptr::null_mut, time::Duration};
 
-use mach::{
-    kern_return::KERN_SUCCESS,
-    port::{mach_port_t, MACH_PORT_NULL},
-};
 use CoreFoundation_sys::{
+    CFDataGetBytes, CFDataGetTypeID, CFDictionaryGetValueIfPresent, CFGetTypeID, CFNumberGetTypeID,
+    CFNumberGetValue, CFRange, CFRelease, CFStringCreateWithCString, CFTypeRef,
     kCFAllocatorDefault, kCFNumberSInt64Type, kCFStringEncodingUTF8,
-    CFDataGetBytes, CFDataGetTypeID, CFDictionaryGetValueIfPresent,
-    CFGetTypeID, CFNumberGetTypeID, CFNumberGetValue, CFRange, CFRelease,
-    CFStringCreateWithCString, CFTypeRef,
 };
 use IOKit_sys::{
-    IOIteratorNext, IOMasterPort, IOObjectRelease,
-    IORegistryEntryCreateCFProperties, IOServiceGetMatchingServices,
-    IOServiceMatching,
+    IOIteratorNext, IOMasterPort, IOObjectRelease, IORegistryEntryCreateCFProperties,
+    IOServiceGetMatchingServices, IOServiceMatching,
+};
+use mach::{
+    kern_return::KERN_SUCCESS,
+    port::{MACH_PORT_NULL, mach_port_t},
 };
 
 use crate::error::Error;
@@ -30,10 +28,7 @@ pub fn get_idle_time() -> Result<Duration, Error> {
         let port_result = IOMasterPort(MACH_PORT_NULL, &mut port as _);
         if port_result != KERN_SUCCESS {
             return Err(Error {
-                cause: format!(
-                    "Unable to open mach port: {}",
-                    io::Error::last_os_error()
-                ),
+                cause: format!("Unable to open mach port: {}", io::Error::last_os_error()),
             });
         }
 
@@ -69,11 +64,8 @@ pub fn get_idle_time() -> Result<Duration, Error> {
                         prop_name.as_ptr() as _,
                         kCFStringEncodingUTF8,
                     );
-                    let present = CFDictionaryGetValueIfPresent(
-                        properties,
-                        prop_name_cf as _,
-                        &mut value,
-                    );
+                    let present =
+                        CFDictionaryGetValueIfPresent(properties, prop_name_cf as _, &mut value);
                     CFRelease(prop_name_cf.cast());
 
                     if present == 1 {

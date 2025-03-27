@@ -26,19 +26,16 @@ const SCREENSAVERS: &[&[&str]] = &[
 
 pub fn get_idle_time() -> Result<Duration, Error> {
     for screensaver in SCREENSAVERS {
-        let Ok(conn) = Connection::new_session() else {continue};
+        let Ok(conn) = Connection::new_session() else {
+            continue;
+        };
 
-        let proxy = conn.with_proxy(
-            screensaver[0],
-            screensaver[1],
-            Duration::from_millis(5000),
-        );
+        let proxy = conn.with_proxy(screensaver[0], screensaver[1], Duration::from_millis(5000));
 
-        let (time,): (u32,) =
-            match proxy.method_call(screensaver[2], "GetActiveTime", ()) {
-                Ok(v) => v,
-                Err(_) => continue,
-            };
+        let (time,): (u32,) = match proxy.method_call(screensaver[2], "GetActiveTime", ()) {
+            Ok(v) => v,
+            Err(_) => continue,
+        };
 
         // freedesktop seems to return the time in milliseconds??
         if screensaver[0] == "org.freedesktop.ScreenSaver" {
