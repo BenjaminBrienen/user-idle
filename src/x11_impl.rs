@@ -14,6 +14,7 @@ use crate::error::Error;
 /// # Panics
 ///
 /// Panics if a system call fails or if time flows backwards.
+#[inline]
 pub fn get_idle_time() -> Result<Duration, Error> {
     unsafe {
         let info = XScreenSaverAllocInfo();
