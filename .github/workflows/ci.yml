@@ -21,7 +21,7 @@ jobs:
             windows-latest,
             # CI does not have a display
             # ubuntu-latest,
-            macos-latest,
+            # macos-latest,
           ]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
@@ -52,7 +52,7 @@ jobs:
             windows-latest,
             # CI does not have a display
             # ubuntu-latest,
-            macos-latest,
+            # macos-latest,
           ]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30

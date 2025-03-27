@@ -3,8 +3,8 @@ use std::{io, mem::size_of, ptr::null_mut, time::Duration};
 use apple_sys::CoreFoundation::{
     CFDataGetBytes, CFDataGetTypeID, CFDataRef, CFDictionaryGetValueIfPresent, CFGetTypeID,
     CFIndex, CFNumberGetTypeID, CFNumberGetValue, CFNumberRef, CFRange, CFRelease,
-    CFStringCreateWithCString, CFTypeRef, kCFAllocatorDefault, kCFNumberSInt64Type,
-    kCFStringEncodingUTF8,
+    CFStringCreateWithCString, CFTypeRef, CFAllocatorDefault, CFNumberSInt64Type,
+    CFStringEncodingUTF8,
 };
 use apple_sys::IOKit::{
     IOIteratorNext, IOMasterPort, IOObjectRelease, IORegistryEntryCreateCFProperties,
